@@ -1,0 +1,46 @@
+def func():
+    import requests
+    import bs4
+    import math
+    import re
+
+
+    def distance(city):
+        result = requests.get(f"https://en.wikipedia.org/wiki/{city}")
+
+        a = bs4.BeautifulSoup(result.text, 'lxml')
+        b = a.select('.latitude')[0].getText()
+        latitude = b
+        c = a.select('.longitude')[0].getText()
+        longitude = c
+
+        return (latitude, longitude)
+
+    c1 = input('enter city 1 name:')
+    c2 = input('enter city 2 name:')
+
+    la1,lo1 = distance(c1)
+    la2,lo2 = distance(c2)
+
+    la1 = re.split(r'′|°|″',la1)
+    la1 = int(la1[0]) + int(la1[1])/60
+    la2 = re.split(r'′|°|″',la2)
+    la2 = int(la2[0]) + int(la2[1])/60
+    lo1 = re.split(r'′|°|″',lo1)
+    lo1 = int(lo1[0]) + int(lo1[1])/60
+    lo2 = re.split(r'′|°|″',lo2)
+    lo2 = int(lo2[0]) + int(lo2[1])/60
+
+    la1 = la1*(math.pi/180)
+    la2 = la2*(math.pi/180)
+    lo1 = lo1*(math.pi/180)
+    lo2 = lo2*(math.pi/180)
+    dla = la2 - la1
+    dlo = lo2 - lo1
+
+    a = (math.sin(dla/2)**2) + (math.cos(la1)*math.cos(la2)*(math.sin(dlo/2)**2))
+    c = 2*math.atan2(a**0.5,(1-a)**0.5)
+    d = 6371 * c
+
+    print(f'distance between {c1} to {c2} is {d}KM')
+func()
