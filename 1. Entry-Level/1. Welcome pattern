@@ -14,3 +14,4 @@ for a in range(i):
         print('---'*(j-5))
     i-=1
     j+=1
+
