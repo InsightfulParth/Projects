@@ -1,0 +1,16 @@
+i = 9
+ii=4
+j = 1
+for a in range(i):
+    if i>5:
+        print('---'*(i-5),end='')
+        print('.|.'*((2*j)-1),end='')
+        print('---'*(i-5))
+    elif i==5:
+        print('----------WELCOME----------')
+    else:
+        print('---'*(j-5),end='')
+        print('.|.'*((i*2)-1),end='')
+        print('---'*(j-5))
+    i-=1
+    j+=1
