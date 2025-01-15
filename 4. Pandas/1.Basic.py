@@ -5,6 +5,7 @@ df.describe()
 df.info()
 df[(df['a']>50) & (df['b']<70)]
 df[(df['a']>50) | (df['b']<70)]
+emp['IIDD'] = emp['IIDD'].apply(lambda a:a+1)
 
 #Multi indexing
 outside=['G1','G1','G1','G1','G2','G2','G2','G2']
@@ -25,18 +26,6 @@ print(df.dropna(axis=1))
 print(df.dropna(thresh=2))
 print(df.fillna(value='FILL VALUE'))
 print(df['A'].fillna(df['A'].mean()))
-
-#Groupby
-data = {'company':['Goog','Goog','Msft','Msft','Fb','Fb'],
-        'person':['Sam','Charlie','Amy','Vanessa','Carl','Sarsh'],
-        'sales':[200,120,340,124,243,350]}
-df = pd.DataFrame(data)
-print(df)
-bycompany = df.groupby('company')
-print(bycompany['sales'].mean())
-print(df.groupby('company').describe())
-print(df.groupby('company').describe().transpose())
-
 
 # concate
 df3 = pd.concat([df1,df2],axis=0)     #column wise concadination
@@ -128,4 +117,18 @@ print(df.sort_values('Col2'))  # or df.sort_values(by='Col2')
 print(df.isnull())
 print(df.pivot_table(values='D',index=['A','B'],columns=['C']))
 
+#Groupby
+data = {'company':['Goog','Goog','Msft','Msft','Fb','Fb'],
+        'person':['Sam','Charlie','Amy','Vanessa','Carl','Sarsh'],
+        'sales':[200,120,340,124,243,350]}
+df = pd.DataFrame(data)
+print(df)
+bycompany = df.groupby('company')
+print(bycompany['sales'].mean())
+print(df.groupby('company').describe())
+print(df.groupby('company').describe().transpose())
 
+grouped = emp.groupby('IIDD')
+grouped.agg(['min','max'])
+
+pd.crosstab(emp['IIDD'],emp['Ename'])
