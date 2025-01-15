@@ -2,10 +2,13 @@
 df.head(3)
 df.tail(4)
 df.describe()
+df.value_counts()     
 df.info()
 df[(df['a']>50) & (df['b']<70)]
 df[(df['a']>50) | (df['b']<70)]
 emp['IIDD'] = emp['IIDD'].apply(lambda a:a+1)
+CONDITION
+df['col1'] = np.where(df['col2']>18,'Eligible','not eligible')
 
 #Multi indexing
 outside=['G1','G1','G1','G1','G2','G2','G2','G2']
@@ -117,18 +120,4 @@ print(df.sort_values('Col2'))  # or df.sort_values(by='Col2')
 print(df.isnull())
 print(df.pivot_table(values='D',index=['A','B'],columns=['C']))
 
-#Groupby
-data = {'company':['Goog','Goog','Msft','Msft','Fb','Fb'],
-        'person':['Sam','Charlie','Amy','Vanessa','Carl','Sarsh'],
-        'sales':[200,120,340,124,243,350]}
-df = pd.DataFrame(data)
-print(df)
-bycompany = df.groupby('company')
-print(bycompany['sales'].mean())
-print(df.groupby('company').describe())
-print(df.groupby('company').describe().transpose())
 
-grouped = emp.groupby('IIDD')
-grouped.agg(['min','max'])
-
-pd.crosstab(emp['IIDD'],emp['Ename'])
