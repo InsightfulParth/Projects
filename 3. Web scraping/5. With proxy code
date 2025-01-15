@@ -1,0 +1,42 @@
+# With proxy
+
+import requests
+import pandas as pd
+from bs4 import BeautifulSoup
+
+# Define the proxy
+# https://192.168.1.10:8080 , 
+proxies = {
+    
+    'https': 'https://36.91.166.98:8080'
+}
+
+# Send a GET request to the provided URL using the proxy
+url = 'https://www.valueresearchonline.com/stocks/44052/reliance-industries-ltd/'
+response = requests.get(url, proxies=proxies)
+
+# Parse the HTML content of the page
+soup = BeautifulSoup(response.text, 'lxml')
+
+# Find the table with the id "stock_performance_trailing_table"
+table = soup.find('table', {'id': 'stock_performance_trailing_table'})
+
+# Check if the table was found
+if table:
+    # Extract the table headers
+    headers = [header.text.strip() for header in table.find_all('th')]
+
+    # Extract the table rows
+    rows = []
+    for row in table.find_all('tr')[1:]:
+        cells = row.find_all('td')
+        cells = [cell.text.strip() for cell in cells]
+        rows.append(cells)
+
+    # Create a DataFrame from the extracted data
+    df = pd.DataFrame(rows, columns=headers)
+
+    # Display the DataFrame
+    print(df)
+else:
+    print("Table not found")
