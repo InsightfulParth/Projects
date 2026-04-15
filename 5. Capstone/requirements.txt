@@ -4,3 +4,4 @@ openpyxl==3.1.2
 python-dotenv==1.0.1
 langchain-google-genai==1.0.5
 plotly==5.22.0
+langchain-core==0.1.52
