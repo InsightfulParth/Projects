@@ -6,6 +6,7 @@
 # =========================================
  
 # --- Import Libraries ---
+# --- Import Libraries ---
 import os
 import time
 import pandas as pd
@@ -14,30 +15,24 @@ from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 import plotly.express as px
 import plotly.graph_objects as go
- 
-# --- Load API Key ---
-# --- Load API Key ---
-import os
-import streamlit as st
-from dotenv import load_dotenv
+
+# --- Page Config (keep this before most Streamlit UI code) ---
+st.set_page_config(
+    page_title="BIM Decision Support | AIDTM",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # --- Load API Key ---
 load_dotenv()
 
-def get_gemini_api_key():
-    # 1) Try Streamlit Cloud secrets first
-    try:
-        return st.secrets["AIzaSyDeWILGO6OuNVgm1_YO_gFA9IUp0w4zAf4"]
-    except Exception:
-        pass
-
-    # 2) Fallback to local .env for local development
-    return os.getenv("GEMINI_API_KEY")
-
-GEMINI_API_KEY = get_gemini_api_key()
+if "GEMINI_API_KEY" in st.secrets:
+    GEMINI_API_KEY = st.secrets["AIzaSyAe-KzvDkOkACukpRNIwgXdYuS0g59kTDs"]
+else:
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 if not GEMINI_API_KEY:
-    st.error("❌ GEMINI_API_KEY not found. Add it in Streamlit Cloud Secrets or local .env file.")
+    st.error("❌ GEMINI_API_KEY not found. Add it in Streamlit Secrets or local .env file.")
     st.stop()
 
 # --- Initialize Gemini ---
@@ -45,10 +40,12 @@ try:
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
         google_api_key=GEMINI_API_KEY,
-        temperature=0.3
+        temperature=0.3,
+        max_retries=2,
+        timeout=60,
     )
 except Exception as e:
-    st.error(f"❌ Failed to initialize Gemini: {e}")
+    st.error(f"❌ Failed to initialize Gemini: {type(e).__name__}: {e}")
     st.stop()
  
 # --- Page Config ---
