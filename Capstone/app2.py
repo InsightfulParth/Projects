@@ -27,7 +27,7 @@ load_dotenv()
 def get_gemini_api_key():
     # 1) Try Streamlit Cloud secrets first
     try:
-        return st.secrets["GEMINI_API_KEY"]
+        return st.secrets["AIzaSyDeWILGO6OuNVgm1_YO_gFA9IUp0w4zAf4"]
     except Exception:
         pass
 
