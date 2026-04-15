@@ -55,7 +55,12 @@ with st.sidebar:
 # =========================================
 # LOAD DATA
 # =========================================
-excel_path = "project.xlsx"
+# excel_path = "project.xlsx"
+# --- Correctly locate the Excel file ---
+import os
+script_dir = os.path.dirname(__file__)
+excel_path = os.path.join(script_dir, "project.xlsx")
+
  
 try:
     xls      = pd.ExcelFile(excel_path)
