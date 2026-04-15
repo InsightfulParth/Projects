@@ -17,7 +17,7 @@ import plotly.graph_objects as go
  
 # --- Load API Key ---
 load_dotenv()
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_API_KEY = st.secrets["AIzaSyDeWILGO6OuNVgm1_YO_gFA9IUp0w4zAf4"]
  
 # --- Initialize Gemini ---
 llm = ChatGoogleGenerativeAI(
@@ -57,9 +57,9 @@ with st.sidebar:
 # =========================================
 # excel_path = "project.xlsx"
 # --- Correctly locate the Excel file ---
-import os
-script_dir = os.path.dirname(__file__)
+script_dir = os.path.dirname(os.path.abspath(__file__))
 excel_path = os.path.join(script_dir, "project.xlsx")
+
 
  
 try:
