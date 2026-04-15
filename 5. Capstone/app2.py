@@ -2,7 +2,7 @@
 # BIM + SD + GEMINI + DASHBOARD (FINAL)
 # DRP: Digital Delivery Platform for Design
 # Development Phase of Healthcare Building Projects
-# CEPT University | Jeffy Thomas George | PCM24150
+# AIDTM | Parth Patel | 20241040
 # =========================================
  
 # --- Import Libraries ---
@@ -28,7 +28,7 @@ llm = ChatGoogleGenerativeAI(
  
 # --- Page Config ---
 st.set_page_config(
-    page_title="BIM Decision Support | CEPT",
+    page_title="BIM Decision Support | AIDTM",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -49,9 +49,8 @@ with st.sidebar:
  
     st.divider()
     st.markdown("**Project Info**")
-    st.caption("CEPT University")
-    st.caption("Jeffy Thomas George · PCM24150")
-    st.caption("Guide: Dr. Jyoti Trivedi")
+    st.caption("AIDTM")
+    st.caption("Parth Patel · 20241040")
  
 # =========================================
 # LOAD DATA
@@ -135,7 +134,7 @@ def build_excel_context(bim_df, scenario_df, sim_df, max_bim_rows=80):
         )
  
     context  = f"=== SHEET 1: BIM_DATA {note} ===\n"
-    context += "Project: CEPT ICP M1 Healthcare | Disciplines: ARCH, STR, Coordinated\n\n"
+    context += "Project: AIDTM BDA CAPSTONE PROJECT | Disciplines: HEALTHCARE PROJECT\n\n"
     context += bim_sample.to_string(index=False) + "\n\n"
  
     context += "=== SHEET 2: SCENARIOS ===\n"
@@ -158,9 +157,9 @@ def ask_gemini(question):
  
     prompt = f"""
 You are a BIM coordination decision support assistant for a real healthcare building project.
-This system is part of a Master's DRP at CEPT University titled:
+This system is part of a AIDTM capstone project titled:
 "Digital Delivery Platform for Design Development Phase of Healthcare Building Projects"
-by Jeffy Thomas George (PCM24150).
+by Parth Patel (20241040).
  
 PROJECT DATA:
 {excel_context}
