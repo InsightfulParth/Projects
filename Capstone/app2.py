@@ -17,22 +17,39 @@ import plotly.graph_objects as go
  
 # --- Load API Key ---
 # --- Load API Key ---
+import os
+import streamlit as st
+from dotenv import load_dotenv
+
+# --- Load API Key ---
 load_dotenv()
 
-if "GEMINI_API_KEY" in st.secrets:
-    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-else:
-    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+def get_gemini_api_key():
+    # 1) Try Streamlit Cloud secrets first
+    try:
+        return st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        pass
+
+    # 2) Fallback to local .env for local development
+    return os.getenv("GEMINI_API_KEY")
+
+GEMINI_API_KEY = get_gemini_api_key()
 
 if not GEMINI_API_KEY:
-    st.error("❌ GEMINI_API_KEY not found. Please set it in Streamlit Secrets or local .env file.")
-    st.stop() 
+    st.error("❌ GEMINI_API_KEY not found. Add it in Streamlit Cloud Secrets or local .env file.")
+    st.stop()
+
 # --- Initialize Gemini ---
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
-    google_api_key=GEMINI_API_KEY,
-    temperature=0.3
-)
+try:
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.5-flash",
+        google_api_key=GEMINI_API_KEY,
+        temperature=0.3
+    )
+except Exception as e:
+    st.error(f"❌ Failed to initialize Gemini: {e}")
+    st.stop()
  
 # --- Page Config ---
 st.set_page_config(
