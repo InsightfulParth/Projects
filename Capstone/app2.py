@@ -16,9 +16,17 @@ import plotly.express as px
 import plotly.graph_objects as go
  
 # --- Load API Key ---
+# --- Load API Key ---
 load_dotenv()
-GEMINI_API_KEY = st.secrets["AIzaSyDeWILGO6OuNVgm1_YO_gFA9IUp0w4zAf4"]
- 
+
+if "GEMINI_API_KEY" in st.secrets:
+    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+else:
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+if not GEMINI_API_KEY:
+    st.error("❌ GEMINI_API_KEY not found. Please set it in Streamlit Secrets or local .env file.")
+    st.stop() 
 # --- Initialize Gemini ---
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
